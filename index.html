@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Themen, die begeistern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f8f4;
+    --ink:#18241e;
+    --muted:#5b6b62;
+    --faint:#8a978f;
+    --line:#e4e9e3;
+    --card:#ffffff;
+    --green:#259660;
+    --green-bright:#2ead60;
+    --green-soft:#e7f3ec;
+    --green-ink:#1b6e48;
+    --violet:#5c1444;
+    --violet-soft:#f1e7ef;
+    --amber:#a76a09;
+    --amber-soft:#fbf0d9;
+    --red:#d8323f;
+    --shadow:0 1px 2px rgba(24,36,30,.04), 0 8px 24px -16px rgba(24,36,30,.25);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Sans 3','Source Sans Pro',system-ui,-apple-system,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 96px;}
+
+  /* ---------- Header ---------- */
+  header.top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px 20px;margin-bottom:8px;}
+  .head-text{flex:1 1 320px;min-width:0;}
+  h1{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:500;
+    font-size:2.15rem;
+    line-height:1.08;
+    letter-spacing:-.01em;
+    margin:0 0 6px;
+  }
+  .sub{color:var(--muted);font-size:1.02rem;margin:0;max-width:46ch;}
+  .me-chip{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    padding:7px 12px 7px 14px;font-size:.92rem;color:var(--ink);
+    cursor:pointer;box-shadow:var(--shadow);white-space:nowrap;
+  }
+  .me-chip:hover{border-color:var(--green);}
+  .me-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--green-bright);}
+  .me-chip b{font-weight:600;}
+  .me-chip .edit{color:var(--faint);font-size:.82rem;}
+
+  /* ---------- Toolbar ---------- */
+  .bar{display:flex;align-items:center;gap:10px;margin:22px 0 18px;flex-wrap:wrap;}
+  .tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:var(--shadow);}
+  .tab{border:0;background:transparent;font:inherit;font-weight:600;font-size:.94rem;color:var(--muted);
+       padding:7px 16px;border-radius:999px;cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--green);color:#fff;}
+  .tab .n{opacity:.7;font-weight:500;margin-left:5px;font-size:.85em;}
+  .spacer{flex:1;}
+  .icon-btn{border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;
+            display:grid;place-items:center;cursor:pointer;color:var(--muted);box-shadow:var(--shadow);}
+  .icon-btn:hover{border-color:var(--green);color:var(--green);}
+  .icon-btn svg{width:18px;height:18px;}
+  .primary{
+    border:0;background:var(--green);color:#fff;font:inherit;font-weight:600;font-size:.96rem;
+    padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:var(--shadow);
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .primary:hover{background:var(--green-bright);}
+  .primary svg{width:18px;height:18px;}
+
+  /* ---------- Mode banner ---------- */
+  .mode{font-size:.84rem;color:var(--muted);margin:-6px 0 18px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .mode .pill{display:inline-flex;align-items:center;gap:6px;background:var(--green-soft);color:var(--green-ink);
+              padding:3px 9px;border-radius:999px;font-weight:600;}
+  .mode .pill.local{background:var(--amber-soft);color:var(--amber);}
+  .mode .pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
+  /* ---------- Cards ---------- */
+  .list{display:flex;flex-direction:column;gap:12px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:16px 18px;
+    display:grid;grid-template-columns:54px 1fr;gap:4px 16px;align-items:start;
+    animation:rise .28s ease both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .rank{
+    grid-row:1 / span 3;align-self:center;text-align:center;
+    font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:2rem;line-height:1;color:var(--green);
+    font-variant-numeric:lining-nums;
+  }
+  .card.held .rank{color:var(--faint);font-size:1.4rem;}
+  .card.flash{animation:flash .7s ease;}
+  @keyframes flash{0%{box-shadow:0 0 0 0 rgba(46,173,96,.45),var(--shadow);}100%{box-shadow:0 0 0 12px rgba(46,173,96,0),var(--shadow);}}
+
+  .c-head{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;}
+  .c-title{font-weight:600;font-size:1.12rem;line-height:1.25;margin:0;flex:1 1 200px;}
+  .badge{font-size:.74rem;font-weight:700;letter-spacing:.02em;padding:4px 9px;border-radius:999px;white-space:nowrap;
+          display:inline-flex;align-items:center;gap:5px;text-transform:uppercase;}
+  .badge.biete{background:var(--green-soft);color:var(--green-ink);}
+  .badge.wunsch{background:var(--violet-soft);color:var(--violet);}
+  .c-desc{color:var(--muted);font-size:.98rem;margin:2px 0 0;}
+  .c-meta{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;margin-top:10px;font-size:.9rem;color:var(--faint);}
+  .c-meta .who{color:var(--muted);}
+  .c-meta .who b{color:var(--ink);font-weight:600;}
+  .status{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:.85rem;}
+  .status .dot{width:7px;height:7px;border-radius:50%;}
+  .status.neu{color:var(--faint);} .status.neu .dot{background:var(--faint);}
+  .status.eingeplant{color:var(--green-ink);} .status.eingeplant .dot{background:var(--green-bright);}
+  .status.gehalten{color:var(--muted);} .status.gehalten .dot{background:var(--muted);}
+  .pending{color:var(--amber);font-weight:600;font-size:.85rem;display:inline-flex;align-items:center;gap:6px;}
+  .pending .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);}
+
+  .c-actions{grid-column:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .vote{
+    border:1.5px solid var(--line);background:#fff;font:inherit;font-weight:600;font-size:.92rem;color:var(--ink);
+    padding:7px 14px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    transition:all .12s;
+  }
+  .vote:hover{border-color:var(--green);}
+  .vote .heart{width:16px;height:16px;display:inline-block;}
+  .vote .cnt{background:var(--paper);border-radius:999px;padding:1px 8px;font-size:.85rem;min-width:22px;text-align:center;}
+  .vote.on{background:var(--green);border-color:var(--green);color:#fff;}
+  .vote.on .cnt{background:rgba(255,255,255,.22);}
+  .confirm{border:1.5px solid var(--violet);background:#fff;color:var(--violet);font:inherit;font-weight:600;
+           font-size:.9rem;padding:7px 14px;border-radius:999px;cursor:pointer;}
+  .confirm:hover{background:var(--violet);color:#fff;}
+  .mod{margin-left:auto;display:flex;align-items:center;gap:6px;}
+  .mod select,.mod input[type="date"]{
+    font:inherit;font-size:.86rem;border:1px solid var(--line);border-radius:9px;padding:6px 8px;color:var(--ink);
+    background:#fff;
+  }
+  .mod select:focus,.mod input:focus{outline:2px solid var(--green-soft);border-color:var(--green);}
+  .del{border:0;background:transparent;color:var(--faint);cursor:pointer;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;}
+  .del:hover{color:var(--red);background:#fdecec;}
+  .del svg{width:16px;height:16px;}
+
+  .section-label{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+                 margin:26px 0 10px;display:flex;align-items:center;gap:10px;}
+  .section-label::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  /* ---------- Fahrplan ---------- */
+  .road{display:flex;flex-direction:column;gap:10px;}
+  .stop{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+        padding:14px 18px;display:grid;grid-template-columns:84px 1fr auto;gap:14px;align-items:center;}
+  .stop.next{border-color:var(--green);box-shadow:0 0 0 1px var(--green),var(--shadow);}
+  .date{text-align:center;}
+  .date .d{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;line-height:1;color:var(--green);}
+  .date .m{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+  .date.past .d{color:var(--faint);}
+  .stop .st-title{font-weight:600;font-size:1.05rem;}
+  .stop .st-sub{color:var(--muted);font-size:.9rem;margin-top:2px;}
+  .next-tag{background:var(--green-soft);color:var(--green-ink);font-weight:700;font-size:.74rem;letter-spacing:.04em;
+            text-transform:uppercase;padding:4px 10px;border-radius:999px;}
+
+  /* ---------- Empty / loading ---------- */
+  .empty{text-align:center;padding:54px 20px;color:var(--muted);}
+  .empty .big{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--ink);margin-bottom:6px;}
+  .loading{text-align:center;padding:60px;color:var(--faint);font-size:.95rem;}
+  .spin{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--green);border-radius:50%;
+        margin:0 auto 14px;animation:sp 1s linear infinite;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+
+  /* ---------- Modal ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(24,36,30,.32);display:none;align-items:center;justify-content:center;
+           padding:20px;z-index:50;backdrop-filter:blur(2px);}
+  .overlay.show{display:flex;animation:fade .15s ease;}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  .modal{background:var(--card);border-radius:18px;width:100%;max-width:480px;padding:26px;box-shadow:0 24px 60px -20px rgba(24,36,30,.5);}
+  .modal h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;margin:0 0 4px;}
+  .modal p.lead{color:var(--muted);margin:0 0 20px;font-size:.96rem;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-weight:600;font-size:.88rem;margin-bottom:6px;}
+  .field input[type="text"],.field textarea{
+    width:100%;font:inherit;font-size:1rem;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;color:var(--ink);background:#fff;
+  }
+  .field textarea{resize:vertical;min-height:54px;}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft);}
+  .hint{font-size:.82rem;color:var(--faint);margin-top:5px;}
+  .toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .toggle button{font:inherit;font-weight:600;font-size:.95rem;border:1.5px solid var(--line);background:#fff;color:var(--muted);
+                 padding:12px;border-radius:12px;cursor:pointer;text-align:left;line-height:1.2;}
+  .toggle button .t-sub{display:block;font-weight:400;font-size:.8rem;color:var(--faint);margin-top:3px;}
+  .toggle button.sel.biete{border-color:var(--green);background:var(--green-soft);color:var(--green-ink);}
+  .toggle button.sel.biete .t-sub{color:var(--green-ink);}
+  .toggle button.sel.wunsch{border-color:var(--violet);background:var(--violet-soft);color:var(--violet);}
+  .toggle button.sel.wunsch .t-sub{color:var(--violet);}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;}
+  .ghost{border:1px solid var(--line);background:#fff;font:inherit;font-weight:600;color:var(--muted);padding:10px 18px;border-radius:11px;cursor:pointer;}
+  .ghost:hover{border-color:var(--muted);color:var(--ink);}
+  .ghost.danger:hover{border-color:var(--red);color:var(--red);}
+  .err{color:var(--red);font-size:.85rem;margin-top:10px;display:none;}
+
+  @media (max-width:560px){
+    h1{font-size:1.8rem;}
+    .card{grid-template-columns:40px 1fr;padding:14px;}
+    .rank{font-size:1.6rem;}
+    .stop{grid-template-columns:64px 1fr;}
+    .stop .next-tag{grid-column:2;justify-self:start;}
+    .mod{margin-left:0;width:100%;}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="head-text">
+      <h1>Themen, die begeistern</h1>
+      <p class="sub">Alle 14 Tage stellt jemand aus dem Team ein Thema vor, das ihn begeistert. Reiche dein Thema ein oder wünsch dir eins – das Team stimmt mit Interesse ab.</p>
+    </div>
+    <button class="me-chip" id="meChip" title="Name ändern">
+      <span class="dot"></span><span>Du: <b id="meName">…</b></span><span class="edit">ändern</span>
+    </button>
+  </header>
+
+  <div class="mode" id="modeBar"></div>
+
+  <div class="bar">
+    <div class="tabs" role="tablist">
+      <button class="tab" id="tabBacklog" role="tab" aria-selected="true">Backlog<span class="n" id="cntBacklog"></span></button>
+      <button class="tab" id="tabRoad" role="tab" aria-selected="false">Fahrplan<span class="n" id="cntRoad"></span></button>
+    </div>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="btnRefresh" title="Aktualisieren">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+    </button>
+    <button class="icon-btn" id="btnExport" title="Als JSON exportieren">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+    </button>
+    <button class="icon-btn" id="btnImport" title="JSON importieren">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="m7 14 5-5 5 5"/><path d="M5 3h14"/></svg>
+    </button>
+    <button class="icon-btn" id="btnReset" title="Alles zurücksetzen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+    </button>
+    <button class="primary" id="btnAdd">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Thema einreichen
+    </button>
+  </div>
+
+  <main id="view">
+    <div class="loading"><div class="spin"></div>Themen werden geladen …</div>
+  </main>
+</div>
+
+<!-- Name modal -->
+<div class="overlay" id="nameOverlay">
+  <div class="modal">
+    <h2>Wer bist du?</h2>
+    <p class="lead">Dein Name erscheint bei deinen Themen und zählt deine Interesse-Stimmen.</p>
+    <div class="field">
+      <label for="nameInput">Dein Name</label>
+      <input type="text" id="nameInput" placeholder="z. B. Caro" autocomplete="off">
+    </div>
+    <div class="err" id="nameErr">Bitte gib einen Namen ein.</div>
+    <div class="modal-actions">
+      <button class="primary" id="nameSave">Los geht's</button>
+    </div>
+  </div>
+</div>
+
+<!-- Topic modal -->
+<div class="overlay" id="topicOverlay">
+  <div class="modal">
+    <h2>Thema einreichen</h2>
+    <p class="lead">Biete ein Thema an, in dem du dich auskennst – oder wünsch dir eins von einer Kollegin oder einem Kollegen.</p>
+    <div class="field">
+      <label>Art des Eintrags</label>
+      <div class="toggle">
+        <button type="button" id="typeBiete" class="sel biete" data-type="biete">💡 Ich biete an<span class="t-sub">Ich stelle es selbst vor</span></button>
+        <button type="button" id="typeWunsch" data-type="wunsch">🙋 Ich wünsche mir<span class="t-sub">Jemand anderes stellt es vor</span></button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="tTitle">Thema</label>
+      <input type="text" id="tTitle" placeholder="Worum geht's? In einem kurzen Titel." autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="tDesc">Kurz: warum ist das spannend?</label>
+      <textarea id="tDesc" placeholder="Ein, zwei Sätze genügen."></textarea>
+    </div>
+    <div class="field" id="presenterField" style="display:none;">
+      <label for="tPresenter">Wer soll es vorstellen?</label>
+      <input type="text" id="tPresenter" placeholder="Name der Person" autocomplete="off">
+      <div class="hint">Die Person bekommt den Eintrag und bestätigt selbst, ob sie ihn übernimmt.</div>
+    </div>
+    <div class="err" id="topicErr"></div>
+    <div class="modal-actions">
+      <button class="ghost" id="topicCancel">Abbrechen</button>
+      <button class="primary" id="topicSave">Einreichen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm (reset) modal -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal">
+    <h2 id="confirmTitle">Sicher?</h2>
+    <p class="lead" id="confirmText"></p>
+    <div class="modal-actions">
+      <button class="ghost" id="confirmNo">Abbrechen</button>
+      <button class="ghost danger" id="confirmYes">Ja, löschen</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="application/json,.json" style="display:none;">
+
+<!-- Supabase Client (UMD, stabil – die +esm-Variante hat aktuell einen Bug) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+"use strict";
+
+/* ============================================================
+   SUPABASE-KONFIGURATION  –  hier deine zwei Werte eintragen
+   (Supabase-Dashboard → Project Settings → API)
+   Bleiben sie leer, läuft das Tool im lokalen Modus (nur dieser Browser).
+   ============================================================ */
+const CONFIG = {
+  SUPABASE_URL:      "",   // z. B. https://abcd1234.supabase.co
+  SUPABASE_ANON_KEY: ""    // der lange "anon public" Key
+};
+
+/* ---------------- Supabase init ---------------- */
+const cloudOn = !!(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY && window.supabase);
+const sb = cloudOn
+  ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    })
+  : null;
+
+/* ---------------- localStorage (sicher gekapselt) ---------------- */
+let LS_OK = false;
+try { localStorage.setItem("__t","1"); localStorage.removeItem("__t"); LS_OK = true; } catch(e){ LS_OK = false; }
+function lsGet(k){ if(!LS_OK) return null; try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ if(!LS_OK) return; try{ localStorage.setItem(k,v); }catch(e){} }
+
+/* ---------------- Mapping Supabase <-> intern ---------------- */
+function rowToTopic(r){
+  return {
+    id: r.id,
+    title: r.title || "",
+    desc: r.description || "",
+    type: r.type === "wunsch" ? "wunsch" : "biete",
+    presenter: r.presenter || "",
+    proposedBy: r.proposed_by || "",
+    voters: Array.isArray(r.voters) ? r.voters : [],
+    confirmed: !!r.confirmed,
+    status: ["neu","eingeplant","gehalten"].includes(r.status) ? r.status : "neu",
+    date: r.event_date || "",
+    createdAt: r.created_at ? Date.parse(r.created_at) : Date.now()
+  };
+}
+function topicToRow(t){
+  return {
+    title: t.title,
+    description: t.desc || "",
+    type: t.type,
+    presenter: t.presenter || "",
+    proposed_by: t.proposedBy || "",
+    voters: t.voters || [],
+    confirmed: !!t.confirmed,
+    status: t.status || "neu",
+    event_date: t.date ? t.date : null
+  };
+}
+
+/* ---------------- Storage layer (Supabase oder in-memory) ---------------- */
+const STORE = {
+  cloud: cloudOn,
+  mem: {},
+  memMe: null,
+  async listTopics(){
+    if(this.cloud){
+      const { data, error } = await sb.from("topics").select("*");
+      if(error){ console.error("list", error); return []; }
+      return (data || []).map(rowToTopic);
+    }
+    return Object.values(this.mem);
+  },
+  async getTopic(id){
+    if(this.cloud){
+      const { data, error } = await sb.from("topics").select("*").eq("id", id).single();
+      if(error){ return null; }
+      return rowToTopic(data);
+    }
+    return this.mem[id] || null;
+  },
+  async createTopic(t){
+    if(this.cloud){
+      const { data, error } = await sb.from("topics").insert(topicToRow(t)).select().single();
+      if(error){ throw error; }
+      return rowToTopic(data);
+    } else {
+      t.id = t.id || newId();
+      this.mem[t.id] = t;
+      return t;
+    }
+  },
+  async updateTopic(t){
+    if(this.cloud){
+      const { error } = await sb.from("topics").update(topicToRow(t)).eq("id", t.id);
+      if(error) console.error("update", error);
+    } else { this.mem[t.id] = t; }
+  },
+  async deleteTopic(id){
+    if(this.cloud){
+      const { error } = await sb.from("topics").delete().eq("id", id);
+      if(error) console.error("delete", error);
+    } else { delete this.mem[id]; }
+  },
+  async clearAll(){
+    if(this.cloud){
+      const { data } = await sb.from("topics").select("id");
+      const ids = (data || []).map(r => r.id);
+      if(ids.length){ await sb.from("topics").delete().in("id", ids); }
+    } else { this.mem = {}; }
+  },
+  async getMe(){ return lsGet("themenplaner_me") || this.memMe; },
+  async setMe(name){ this.memMe = name; lsSet("themenplaner_me", name); }
+};
+
+/* ---------------- App state ---------------- */
+let ME = null;
+let TOPICS = [];
+let TAB = "backlog";
+let lastSig = "";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const today = () => new Date().toISOString().slice(0,10);
+
+/* ---------------- Sorting / derived ---------------- */
+function activeSorted(){
+  return TOPICS.filter(t=>t.status!=="gehalten")
+    .sort((a,b)=> (b.voters.length-a.voters.length) || (a.createdAt-b.createdAt));
+}
+function heldSorted(){
+  return TOPICS.filter(t=>t.status==="gehalten")
+    .sort((a,b)=> (b.date||"").localeCompare(a.date||""));
+}
+function scheduled(){
+  return TOPICS.filter(t=>t.date)
+    .sort((a,b)=> (a.date||"").localeCompare(b.date||""));
+}
+
+/* ---------------- Render: Backlog ---------------- */
+const MONTHS = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+
+function fmtDate(iso){
+  if(!iso) return "";
+  const d = new Date(iso+"T00:00:00");
+  return `${d.getDate()}. ${MONTHS[d.getMonth()]}`;
+}
+
+function topicCard(t, rank){
+  const held = t.status==="gehalten";
+  const mine = t.voters.includes(ME);
+  const isPresenter = (t.presenter||"").trim().toLowerCase() === (ME||"").trim().toLowerCase();
+  const pending = t.type==="wunsch" && !t.confirmed;
+  const typeBadge = t.type==="biete"
+    ? '<span class="badge biete">💡 biete an</span>'
+    : '<span class="badge wunsch">🙋 wunsch</span>';
+  const who = t.type==="biete"
+    ? `von <b>${esc(t.presenter)}</b>`
+    : `Wunsch an <b>${esc(t.presenter)}</b>`;
+
+  let statusEl = "";
+  if(pending){
+    statusEl = `<span class="pending"><span class="dot"></span>wartet auf Zusage</span>`;
+  } else {
+    const map = {neu:"vorgemerkt", eingeplant:"eingeplant"+(t.date?` · ${fmtDate(t.date)}`:""), gehalten:"gehalten"+(t.date?` · ${fmtDate(t.date)}`:"")};
+    statusEl = `<span class="status ${t.status}"><span class="dot"></span>${map[t.status]||"vorgemerkt"}</span>`;
+  }
+
+  const confirmBtn = (pending && isPresenter)
+    ? `<button class="confirm" data-act="confirm" data-id="${t.id}">Ich mach's</button>` : "";
+
+  const dateVal = t.date || "";
+  const mod = `
+    <div class="mod">
+      <input type="date" data-act="date" data-id="${t.id}" value="${dateVal}" title="Termin festlegen">
+      <select data-act="status" data-id="${t.id}" title="Status">
+        <option value="neu" ${t.status==="neu"?"selected":""}>vorgemerkt</option>
+        <option value="eingeplant" ${t.status==="eingeplant"?"selected":""}>eingeplant</option>
+        <option value="gehalten" ${t.status==="gehalten"?"selected":""}>gehalten</option>
+      </select>
+      <button class="del" data-act="del" data-id="${t.id}" title="Eintrag löschen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+      </button>
+    </div>`;
+
+  return `
+  <article class="card ${held?"held":""}" data-card="${t.id}">
+    <div class="rank">${held?"✓":rank}</div>
+    <div class="c-head">
+      <h3 class="c-title">${esc(t.title)}</h3>
+      ${typeBadge}
+    </div>
+    ${t.desc?`<p class="c-desc">${esc(t.desc)}</p>`:""}
+    <div class="c-meta"><span class="who">${who}</span>${statusEl}</div>
+    <div class="c-actions">
+      <button class="vote ${mine?"on":""}" data-act="vote" data-id="${t.id}">
+        <span class="heart">${mine?"❤":"♡"}</span> Interesse <span class="cnt">${t.voters.length}</span>
+      </button>
+      ${confirmBtn}
+      ${mod}
+    </div>
+  </article>`;
+}
+
+function renderBacklog(){
+  const active = activeSorted();
+  const held = heldSorted();
+  let html = "";
+  if(active.length===0 && held.length===0){
+    html = `<div class="empty"><div class="big">Noch keine Themen.</div>Reiche das erste ein – was begeistert dich gerade?</div>`;
+  } else {
+    html += `<div class="list">` + active.map((t,i)=>topicCard(t,i+1)).join("") + `</div>`;
+    if(held.length){
+      html += `<div class="section-label">Schon gehalten</div>`;
+      html += `<div class="list">` + held.map(t=>topicCard(t,0)).join("") + `</div>`;
+    }
+  }
+  $("#view").innerHTML = html;
+}
+
+/* ---------------- Render: Fahrplan ---------------- */
+function renderRoad(){
+  const stops = scheduled();
+  if(stops.length===0){
+    $("#view").innerHTML = `<div class="empty"><div class="big">Noch nichts terminiert.</div>Setz im Backlog bei einem Thema einen Termin – es erscheint dann hier.</div>`;
+    return;
+  }
+  const t0 = today();
+  const nextId = (stops.find(s=>s.date>=t0 && s.status!=="gehalten")||{}).id;
+  const html = `<div class="road">` + stops.map(s=>{
+    const d = new Date(s.date+"T00:00:00");
+    const past = s.date < t0 || s.status==="gehalten";
+    const isNext = s.id===nextId;
+    const who = s.type==="biete" ? `von ${esc(s.presenter)}` : `Wunsch an ${esc(s.presenter)}`;
+    const yr = d.getFullYear()!==new Date().getFullYear() ? ` ${d.getFullYear()}` : "";
+    return `
+    <div class="stop ${isNext?"next":""}">
+      <div class="date ${past?"past":""}">
+        <div class="d">${d.getDate()}</div>
+        <div class="m">${MONTHS[d.getMonth()]}${yr}</div>
+      </div>
+      <div>
+        <div class="st-title">${esc(s.title)}</div>
+        <div class="st-sub">${who} · ${s.voters.length} Interesse · ${s.status==="gehalten"?"gehalten":"geplant"}</div>
+      </div>
+      ${isNext?'<span class="next-tag">als Nächstes</span>':"<span></span>"}
+    </div>`;
+  }).join("") + `</div>`;
+  $("#view").innerHTML = html;
+}
+
+function render(){
+  $("#meName").textContent = ME || "…";
+  $("#cntBacklog").textContent = activeSorted().length || "";
+  $("#cntRoad").textContent = scheduled().length || "";
+  $("#tabBacklog").setAttribute("aria-selected", TAB==="backlog");
+  $("#tabRoad").setAttribute("aria-selected", TAB==="road");
+  if(TAB==="backlog") renderBacklog(); else renderRoad();
+}
+
+/* ---------------- Data refresh ---------------- */
+async function refresh(force){
+  const rows = await STORE.listTopics();
+  rows.forEach(t=>{ t.voters = Array.isArray(t.voters)?t.voters:[]; });
+  const sig = JSON.stringify(rows.map(t=>[t.id,t.title,t.desc,t.type,t.presenter,t.confirmed,t.status,t.date,t.voters.length]).sort());
+  if(force || sig!==lastSig){
+    TOPICS = rows;
+    lastSig = sig;
+    render();
+  }
+}
+
+/* ---------------- Actions ---------------- */
+async function toggleVote(id){
+  const t = await STORE.getTopic(id);
+  if(!t) return;
+  t.voters = Array.isArray(t.voters)?t.voters:[];
+  const i = t.voters.indexOf(ME);
+  if(i>=0) t.voters.splice(i,1); else t.voters.push(ME);
+  await STORE.updateTopic(t);
+  await refresh(true);
+  const el = document.querySelector(`[data-card="${id}"]`);
+  if(el){ el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"),700); }
+}
+async function confirmPresent(id){
+  const t = await STORE.getTopic(id);
+  if(!t) return;
+  t.confirmed = true;
+  await STORE.updateTopic(t);
+  await refresh(true);
+}
+async function setStatus(id, status){
+  const t = await STORE.getTopic(id);
+  if(!t) return;
+  t.status = status;
+  if(status==="eingeplant" && !t.date) t.date = today();
+  await STORE.updateTopic(t);
+  await refresh(true);
+}
+async function setDate(id, date){
+  const t = await STORE.getTopic(id);
+  if(!t) return;
+  t.date = date;
+  if(date && t.status==="neu") t.status = "eingeplant";
+  await STORE.updateTopic(t);
+  await refresh(true);
+}
+async function removeTopic(id){
+  await STORE.deleteTopic(id);
+  await refresh(true);
+}
+
+/* ---------------- Event delegation ---------------- */
+$("#view").addEventListener("click", e=>{
+  const b = e.target.closest("[data-act]");
+  if(!b) return;
+  const act = b.dataset.act, id = b.dataset.id;
+  if(act==="vote") toggleVote(id);
+  else if(act==="confirm") confirmPresent(id);
+  else if(act==="del") askDelete(id);
+});
+$("#view").addEventListener("change", e=>{
+  const el = e.target.closest("[data-act]");
+  if(!el) return;
+  if(el.dataset.act==="status") setStatus(el.dataset.id, el.value);
+  else if(el.dataset.act==="date") setDate(el.dataset.id, el.value);
+});
+
+/* ---------------- Tabs ---------------- */
+$("#tabBacklog").onclick = ()=>{ TAB="backlog"; render(); };
+$("#tabRoad").onclick = ()=>{ TAB="road"; render(); };
+$("#btnRefresh").onclick = ()=>refresh(true);
+
+/* ---------------- Name modal ---------------- */
+function openName(){
+  $("#nameInput").value = ME || "";
+  $("#nameErr").style.display = "none";
+  $("#nameOverlay").classList.add("show");
+  setTimeout(()=>$("#nameInput").focus(), 50);
+}
+$("#meChip").onclick = openName;
+$("#nameSave").onclick = saveName;
+$("#nameInput").addEventListener("keydown", e=>{ if(e.key==="Enter") saveName(); });
+async function saveName(){
+  const v = $("#nameInput").value.trim();
+  if(!v){ $("#nameErr").style.display="block"; return; }
+  ME = v;
+  await STORE.setMe(v);
+  $("#nameOverlay").classList.remove("show");
+  render();
+}
+
+/* ---------------- Topic modal ---------------- */
+let curType = "biete";
+function setType(type){
+  curType = type;
+  $("#typeBiete").className = type==="biete" ? "sel biete" : "";
+  $("#typeWunsch").className = type==="wunsch" ? "sel wunsch" : "";
+  $("#presenterField").style.display = type==="wunsch" ? "block" : "none";
+}
+$("#typeBiete").onclick = ()=>setType("biete");
+$("#typeWunsch").onclick = ()=>setType("wunsch");
+
+$("#btnAdd").onclick = ()=>{
+  setType("biete");
+  $("#tTitle").value=""; $("#tDesc").value=""; $("#tPresenter").value="";
+  $("#topicErr").style.display="none";
+  $("#topicOverlay").classList.add("show");
+  setTimeout(()=>$("#tTitle").focus(), 50);
+};
+$("#topicCancel").onclick = ()=>$("#topicOverlay").classList.remove("show");
+$("#topicSave").onclick = saveTopic;
+
+async function saveTopic(){
+  const title = $("#tTitle").value.trim();
+  const desc = $("#tDesc").value.trim();
+  const err = $("#topicErr");
+  if(!title){ err.textContent="Bitte gib ein Thema ein."; err.style.display="block"; return; }
+  let presenter = ME;
+  if(curType==="wunsch"){
+    presenter = $("#tPresenter").value.trim();
+    if(!presenter){ err.textContent="Bitte gib an, wer das Thema vorstellen soll."; err.style.display="block"; return; }
+  }
+  const t = {
+    title, desc, type:curType, presenter,
+    proposedBy:ME, voters:[ME],
+    confirmed: curType==="biete",
+    status:"neu", date:"", createdAt:Date.now()
+  };
+  try{
+    await STORE.createTopic(t);
+    $("#topicOverlay").classList.remove("show");
+    TAB="backlog";
+    await refresh(true);
+  }catch(e){
+    err.textContent="Speichern hat nicht geklappt. Prüfe die Supabase-Verbindung."; err.style.display="block";
+  }
+}
+
+/* ---------------- Confirm (delete / reset) ---------------- */
+let confirmCb = null;
+function askConfirm(title, text, label, cb){
+  $("#confirmTitle").textContent = title;
+  $("#confirmText").textContent = text;
+  $("#confirmYes").textContent = label;
+  confirmCb = cb;
+  $("#confirmOverlay").classList.add("show");
+}
+function askDelete(id){
+  const t = TOPICS.find(x=>x.id===id);
+  askConfirm("Eintrag löschen?", `„${t?t.title:"Dieser Eintrag"}" wird endgültig entfernt.`, "Ja, löschen", async ()=>{
+    await removeTopic(id);
+  });
+}
+$("#btnReset").onclick = ()=>{
+  askConfirm("Alles zurücksetzen?", "Alle Themen und Stimmen werden gelöscht. Tipp: vorher exportieren.", "Alles löschen", async ()=>{
+    await STORE.clearAll();
+    await refresh(true);
+  });
+};
+$("#confirmNo").onclick = ()=>{ $("#confirmOverlay").classList.remove("show"); confirmCb=null; };
+$("#confirmYes").onclick = async ()=>{
+  $("#confirmOverlay").classList.remove("show");
+  if(confirmCb){ const cb=confirmCb; confirmCb=null; await cb(); }
+};
+
+/* ---------------- Export / Import ---------------- */
+$("#btnExport").onclick = ()=>{
+  const data = JSON.stringify({ exported:new Date().toISOString(), topics:TOPICS }, null, 2);
+  const blob = new Blob([data], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "themenplaner-" + today() + ".json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+$("#btnImport").onclick = ()=>$("#fileInput").click();
+$("#fileInput").addEventListener("change", async e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  try{
+    const text = await f.text();
+    const parsed = JSON.parse(text);
+    const rows = Array.isArray(parsed) ? parsed : (parsed.topics||[]);
+    if(!Array.isArray(rows)) throw new Error("kein gültiges Format");
+    askConfirm("Importieren?", `${rows.length} Themen werden hinzugefügt. Vorhandene bleiben erhalten.`, "Importieren", async ()=>{
+      for(const r of rows){
+        if(!r || !r.title) continue;
+        const t = {
+          title: r.title,
+          desc: r.desc || r.description || "",
+          type: r.type==="wunsch" ? "wunsch" : "biete",
+          presenter: r.presenter || r.proposedBy || "?",
+          proposedBy: r.proposedBy || "import",
+          voters: Array.isArray(r.voters) ? r.voters : [],
+          confirmed: r.type==="biete" ? true : !!r.confirmed,
+          status: ["neu","eingeplant","gehalten"].includes(r.status) ? r.status : "neu",
+          date: r.date || "",
+          createdAt: r.createdAt || Date.now()
+        };
+        try{ await STORE.createTopic(t); }catch(err){ console.error(err); }
+      }
+      await refresh(true);
+    });
+  }catch(err){
+    alert("Import fehlgeschlagen: keine gültige JSON-Datei.");
+  }
+  e.target.value = "";
+});
+
+/* ---------------- Close overlays on backdrop / Esc ---------------- */
+document.querySelectorAll(".overlay").forEach(o=>{
+  o.addEventListener("click", e=>{ if(e.target===o && o.id!=="nameOverlay") o.classList.remove("show"); });
+});
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape"){
+    document.querySelectorAll(".overlay.show").forEach(o=>{ if(o.id!=="nameOverlay") o.classList.remove("show"); });
+  }
+});
+
+/* ---------------- Polling + Realtime ---------------- */
+function anyModalOpen(){ return !!document.querySelector(".overlay.show"); }
+function userEditing(){
+  const a = document.activeElement;
+  return a && (a.tagName==="INPUT" || a.tagName==="SELECT" || a.tagName==="TEXTAREA");
+}
+function subscribeRealtime(){
+  try{
+    sb.channel("topics-rt")
+      .on("postgres_changes", { event:"*", schema:"public", table:"topics" }, ()=>{ refresh(false); })
+      .subscribe();
+  }catch(e){ /* Polling deckt das ab */ }
+}
+
+/* ---------------- Mode banner ---------------- */
+function showMode(state, msg){
+  const bar = $("#modeBar");
+  if(state==="live"){
+    bar.innerHTML = `<span class="pill"><span class="dot"></span>Live</span> Daten liegen in Supabase und sind für alle mit dem Link sichtbar.`;
+  } else if(state==="error"){
+    bar.innerHTML = `<span class="pill local"><span class="dot"></span>Keine Verbindung</span> Supabase nicht erreichbar – prüfe URL, Key, Tabelle und RLS.`;
+  } else {
+    bar.innerHTML = `<span class="pill local"><span class="dot"></span>Lokal</span> Trag oben im Code deine Supabase-URL und den anon-Key ein. Bis dahin nur dieser Browser.`;
+  }
+}
+
+/* ---------------- Init ---------------- */
+async function probeCloud(){
+  if(!STORE.cloud) return false;
+  try{
+    const { error } = await sb.from("topics").select("id").limit(1);
+    return !error;
+  }catch(e){ return false; }
+}
+
+(async function init(){
+  ME = await STORE.getMe();
+  if(STORE.cloud){
+    const ok = await probeCloud();
+    if(ok){ showMode("live"); subscribeRealtime(); }
+    else { showMode("error"); }
+  } else {
+    showMode("local");
+  }
+  await refresh(true);
+  if(!ME){ openName(); } else { render(); }
+  setInterval(()=>{ if(!anyModalOpen() && !userEditing()) refresh(false); }, 10000);
+})();
+</script>
+</body>
+</html>
